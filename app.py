@@ -43,7 +43,7 @@ def process_image():
         render_factor = 35 #int(request.json["render_factor"])
 
         download(url, input_path)
-
+        # ToDo: size tranform
         try:
             image_colorizer.plot_transformed_image(path=input_path, figsize=(20,20),
             render_factor=render_factor, display_render_factor=True, compare=False)
@@ -85,6 +85,8 @@ def main():
     <h1>ainized-DeOldify</h1>
     <A>Git hub repository : </A> <A href="https://bit.ly/39xp9db"> DeOldify </A> <br>
     <A>API deployed on  </A> <A href="http://bit.ly/390JkQr"> Ainize </A>
+    <A>NOTE! </A><br>
+    <A>You need to put a url of an image you selected, not an image url from Google view of Google drive.<br>You can use an image url from this website, https://imgur.com/</A>
     <hr class="my-4">
     <h3>Image URL: <input id="source_url" placeholder="http://"> </h3><br>
     <style>
