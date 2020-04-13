@@ -137,6 +137,10 @@ def main():
                             run(retry_cnt, retry_sec)
                         }, retry_sec * 1000
                     )
+                } else if (response.status === 500) {
+                    return response.json().then(errorPayload => {
+                        throw Error(errorPayload.message);
+                    });
                 } else {
                     throw Error('Server Error - Debugging Please!');
                 }
@@ -144,8 +148,12 @@ def main():
             .then(response => response.blob())
             .then(blob => URL.createObjectURL(blob))
             .then(imageURL => {
+                document.getElementById('result').innerText = '';
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('resultImage').src = imageURL;
+            })
+            .catch(e => {
+                document.getElementById('result').innerText = e.message;
             })
     };
 
