@@ -1,4 +1,4 @@
-From nvcr.io/nvidia/pytorch:19.04-py3
+From pytorch/pytorch:1.4-cuda10.1-cudnn7-devel
 
 RUN apt-get -y update
 

@@ -65,7 +65,7 @@ if __name__ == '__main__':
     global upload_directory
     global results_video_directory
     global video_colorizer
-
+    
     upload_directory = '/data/upload/'
     create_directory(upload_directory)
 

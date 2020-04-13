@@ -40,7 +40,7 @@ def process_image():
 
     try:
         url = request.json["source_url"]
-        render_factor = 35#int(request.json["render_factor"])
+        render_factor = 35 #int(request.json["render_factor"])
 
         download(url, input_path)
 
@@ -66,31 +66,6 @@ def process_image():
             input_path,
             output_path
             ])
-
-# @app.route("/process-video", methods=["POST"])
-# def process_video():
-
-#     input_path = generate_random_filename(upload_directory,"mp4")
-#     output_path = os.path.join(results_video_directory, os.path.basename(input_path))
-
-#     try:
-#         url = request.json["source_url"]
-#         render_factor = int(request.json["render_factor"])
-
-#         video_path = video_colorizer.colorize_from_url(source_url=url, file_name=input_path, render_factor=render_factor)
-#         callback = send_file(output_path, mimetype='application/octet-stream')
-
-#         return callback, 200
-
-#     except:
-#         traceback.print_exc()
-#         return {'message': 'input error'}, 400
-
-#     finally:
-#         clean_all([
-#             input_path,
-#             output_path
-#             ])
 
 @app.route('/health')
 def health():
@@ -118,23 +93,38 @@ def main():
         border-bottom-right-radius: 5px;
     }
     </style>
+    <div>
+        <h2>Select type!</h2>
+        <input type="radio" name="type" id="option" value="picture"> Picture <br>
+        <input type="radio" name="type" id="option" value="anime"> Animation <br>
+    </div>
     <h3>RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
     <div id="result">
         <image id="resultImage">
     </div>
     <script>
-    const run = (retry_cnt=0, retry_sec=1) => {
+    const run = (retry_cnt=0, retry_sec=1,) => {
         if (retry_cnt < 3) {
             retry_cnt += 1
             retry_sec *= 2
         } else {
             throw Error('Retry Error');
         }
-        url = "https://deoldify-api.kmswlee.endpoint.ainize.ai/process-img"
-        data = JSON.stringify({
+        checked=document.querySelector('input[name="type"]:checked').value;
+        if (checked=='anime'){
+            url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
+            data = JSON.stringify({
+            source_url: document.getElementById('source_url').value,
+            render_factor: 26,
+            })
+        }
+        else{
+            url = "/process-img"
+            data = JSON.stringify({
             source_url: document.getElementById('source_url').value,
             render_factor: 35,
-        })
+            })
+        }
 
         fetch(url, {method:'POST', headers: {'Content-Type': 'application/json'}, body: data})
             .then(response => {
@@ -158,7 +148,8 @@ def main():
                 document.getElementById('resultImage').src = imageURL;
             })
     };
-    document.getElementById('submit').onclick = () => run()
+
+    document.getElementById('submit').onclick = () => run()    
     </script>
     </div>
     </div>
@@ -167,18 +158,14 @@ def main():
 if __name__ == '__main__':
     global upload_directory
     global results_img_directory
-    global results_video_directory
     global image_colorizer
-    global video_colorizer
+    #global video_colorizer
 
     upload_directory = '/data/upload/'
     #create_directory(upload_directory)
 
     results_img_directory = '/data/result_images/'
     #create_directory(results_img_directory)
-
-    results_video_directory = '/data/video/result/'
-    #create_directory(results_video_directory)
 
     model_directory = '/data/models/'
     #create_directory(model_directory)
@@ -187,7 +174,8 @@ if __name__ == '__main__':
     #get_model_bin(artistic_model_url, os.path.join(model_directory, 'ColorizeArtistic_gen.pth'))
 
     image_colorizer = get_image_colorizer(artistic=True)
-    #video_colorizer = get_video_colorizer()
+
 
     print('ready for')
     app.run(host='0.0.0.0', port=80, threaded=False)
+
