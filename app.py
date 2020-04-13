@@ -8,7 +8,7 @@ from flask import jsonify
 from flask import send_file
 
 
-from app_utils import download
+from app_utils import download, DownloadPrecheckFailed
 from app_utils import generate_random_filename
 from app_utils import clean_me
 from app_utils import clean_all
@@ -56,9 +56,11 @@ def process_image():
         
         return callback, 200
 
+    except DownloadPrecheckFailed as e:
+        return jsonify({'message': str(e)}), 500
     except:
         traceback.print_exc()
-        return {'message': 'input error'}, 400
+        return jsonify({'message': 'input error'}), 400
 
     finally:
         pass
