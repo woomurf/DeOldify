@@ -10,9 +10,9 @@ from skimage.filters import gaussian
 from PIL import Image
 
 def compress_image(image, path_original):
-    size = 1920, 1080
-    width = 1920
-    height = 1080
+    size = 960, 540
+    width = 960
+    height = 540
 
     name = os.path.basename(path_original).split('.')
     first_name = os.path.join(os.path.dirname(path_original), name[0] + '.jpg')

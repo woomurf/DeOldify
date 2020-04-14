@@ -84,9 +84,11 @@ def main():
     <div class="jumbotron mt-3">
     <h1>ainized-DeOldify</h1>
     <A>Git hub repository : </A> <A href="https://bit.ly/39xp9db"> DeOldify </A> <br>
-    <A>API deployed on  </A> <A href="http://bit.ly/390JkQr"> Ainize </A>
+    <A>API deployed on  </A> <A href="http://bit.ly/390JkQr"> Ainize </A> <br>
     <A>NOTE! </A><br>
-    <A>You need to put a url of an image you selected, not an image url from Google view of Google drive.<br>You can use an image url from this website, https://imgur.com/</A>
+    <A>If you want to put an image url from Google drive, You can use code:"https://drive.google.com/uc?export=view&id=${imageId}"</A> <br>
+    <A>You can use an image url from this website. </A> <A href="https://imgur.com/"> Link</A><br>
+    <A>Sample image homepage : </A> <A href="https://unsplash.com/wallpapers/colors/black-and-white"> Link</A> <br>
     <hr class="my-4">
     <h3>Image URL: <input id="source_url" placeholder="http://"> </h3><br>
     <style>
@@ -100,11 +102,11 @@ def main():
     <div>
         <h2>Select type!</h2>
         <input type="radio" name="type" id="option" value="picture"> Picture <br>
-        <input type="radio" name="type" id="option" value="anime"> Animation <br>
+        <input type="radio" name="type" id="option" value="anime"> sketch <br>
     </div>
     <h3>RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
     <div id="result">
-        <image id="resultImage">
+        <image id="resultImage" width="960" height="540">
     </div>
     <script>
     const run = (retry_cnt=0, retry_sec=1,) => {
