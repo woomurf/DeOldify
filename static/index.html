@@ -44,8 +44,9 @@
     let time_obj = document.getElementById("time");
     let timer = undefined;
     let start = undefined;
-    document.getElementById("preloader").style.display = "none";
     var doubleSubmitFlag = false;
+
+    document.getElementById("preloader").style.display = "none";
     function doubleSubmitCheck(){
         if(doubleSubmitFlag){
             return doubleSubmitFlag;
@@ -66,7 +67,7 @@
             throw Error('Retry Error');
         }
         if (document.getElementById('source_url').value==""){
-            alert('Please input url!');
+            alert('Please input URL!');
             return;
         }
         if (document.querySelector('input[name="type"]:checked')==null){
