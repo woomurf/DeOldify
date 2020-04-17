@@ -76,6 +76,7 @@ def health():
 @app.route('/')
 def main():
     return app.send_static_file('index.html')
+    
 if __name__ == '__main__':
     global upload_directory
     global results_img_directory

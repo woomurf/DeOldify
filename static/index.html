@@ -20,7 +20,7 @@
         border-bottom-right-radius: 5px;
     }
     </style>
-    
+
     <div>
         <h2>Select type!</h2>
         <input type="radio" name="type" id="option" value="picture"> Picture <br>
@@ -51,6 +51,10 @@
         }
     }
     const run = (retry_cnt=0, retry_sec=1,) => {
+        if(doubleSubmitCheck()) {
+            console.log("please wait");
+            return ;
+        }
         if (retry_cnt < 3) {
             retry_cnt += 1
             retry_sec *= 2
@@ -58,8 +62,13 @@
             throw Error('Retry Error');
         }
         checked=document.querySelector('input[name="type"]:checked').value;
-        if (document.querySelector('input[name="type"]:checked').value==null){
-            
+        if (checked==null){
+            alert('Please select option!');
+            return;
+        }
+        if (document.getElementById('source_url').value==null){
+            alert('Please input url!');
+            return;
         }
         if (checked=='anime'){
             url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
@@ -73,6 +82,13 @@
             source_url: document.getElementById('source_url').value,
             })
         }
+        document.getElementById("preloader").style.display = "block";
+        start = 0;
+        timer= setInterval(() => {
+            start += 1;
+            time_obj.innerText = `${start / 10} 's`;
+        }, 100);
+
         fetch(url, {method:'POST', headers: {'Content-Type': 'application/json'}, body: data})
             .then(response => {
                 if (response.status === 200) {
@@ -101,17 +117,14 @@
             .then(imageURL => {
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('resultImage').src = imageURL;
+                document.getElementById("preloader").style.display = "none";
+                clearInterval(timer);
             })
             .catch(e => {
                 document.getElementById('result').innerText = e.message;
             })
     };
-    if(doubleSubmitFlag){
-        console.log("please wait..");
-    }
-    else{
         document.getElementById('submit').onclick = () => run()
-    }
     </script>
     </div>
     </div>
