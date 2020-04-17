@@ -23,8 +23,8 @@
     
     <div>
         <h2>Select type!</h2>
-        <input type="radio" name="type" id="option" value="picture"> Picture <br>
-        <input type="radio" name="type" id="option" value="anime"> sketch <br>
+        <input type="radio" name="type" id="option" value="picture" checked> Picture <br>
+        <input type="radio" name="type" id="option" value="anime"> Sketch <br>
     </div>
 
     <h3>RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
@@ -37,6 +37,7 @@
     </div>
 
     <div id="result">
+        <div id="resultText"></div>
         <image id="resultImage" style="width: 100%; height:auto;">
     </div>
 
@@ -78,7 +79,7 @@
                 if (response.status === 200) {
                     return response;
                 } else if (response.status === 429) {
-                    console.log(`retry ${retry_cnt}th after ${retry_sec}secs ...`);
+                    document.getElementById('resultText').innerText = (`retry ${retry_cnt}th after ${retry_sec}secs ...`);
                     setTimeout(
                         () => {
                             run(retry_cnt, retry_sec)
@@ -89,11 +90,11 @@
                         throw Error(errorPayload.message);
                     });
                 } else if(response.status=== 500) {
-                    return response.json.then(errorPayload => {
+                    return response.json().then(errorPayload => {
                         throw Error(errorPayload.message);
                     });
                 } else {
-                    throw Error('Server Error - Debugging Please!');
+                    throw Error('Server Busy -- Please Wait!');
                 }
             })
             .then(response => response.blob())
@@ -101,9 +102,10 @@
             .then(imageURL => {
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('resultImage').src = imageURL;
+                document.getElementById('resultText').innerText = '';
             })
             .catch(e => {
-                document.getElementById('result').innerText = e.message;
+                document.getElementById('resultText').innerText = e.message;
             })
     };
     if(doubleSubmitFlag){
