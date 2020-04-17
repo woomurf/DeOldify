@@ -66,7 +66,7 @@
             alert('Please select option!');
             return;
         }
-        if (document.getElementById('source_url').value==null){
+        if (document.getElementById('source_url').value==""){
             alert('Please input url!');
             return;
         }
@@ -124,7 +124,7 @@
                 document.getElementById('result').innerText = e.message;
             })
     };
-        document.getElementById('submit').onclick = () => run()
+    document.getElementById('submit').onclick = () => run()
     </script>
     </div>
     </div>
