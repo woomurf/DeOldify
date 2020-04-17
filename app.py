@@ -60,7 +60,7 @@ def process_image():
         return jsonify({'message': str(e)}), 400
     except:
         traceback.print_exc()
-        return jsonify({'message': 'input error'}), 500
+        return jsonify({'message': 'inference error'}), 500
 
     finally:
         pass
