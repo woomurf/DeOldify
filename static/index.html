@@ -41,6 +41,10 @@
     </div>
 
     <script>
+    let time_obj = document.getElementById("time");
+    let timer = undefined;
+    let start = undefined;
+    document.getElementById("preloader").style.display = "none";
     var doubleSubmitFlag = false;
     function doubleSubmitCheck(){
         if(doubleSubmitFlag){
@@ -61,15 +65,15 @@
         } else {
             throw Error('Retry Error');
         }
-        checked=document.querySelector('input[name="type"]:checked').value;
-        if (checked==null){
-            alert('Please select option!');
-            return;
-        }
         if (document.getElementById('source_url').value==""){
             alert('Please input url!');
             return;
         }
+        if (document.querySelector('input[name="type"]:checked')==null){
+            alert('Please select option!');
+            return;
+        }
+        checked=document.querySelector('input[name="type"]:checked').value;
         if (checked=='anime'){
             url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
             data = JSON.stringify({
@@ -119,6 +123,7 @@
                 document.getElementById('resultImage').src = imageURL;
                 document.getElementById("preloader").style.display = "none";
                 clearInterval(timer);
+                doubleSubmitFlag = false
             })
             .catch(e => {
                 document.getElementById('result').innerText = e.message;
