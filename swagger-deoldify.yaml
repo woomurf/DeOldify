@@ -1,17 +1,17 @@
 openapi: 3.0.1
 info:
-   title: Ainized-DeOldify
+   title: DeOldify
    description: "Simply put, the mission of this project is to colorize and restore old images and film footage. We'll get into the details in a bit, but first let's see some pretty pictures.
-   if you want transform image to animation, please change url server to https://deoldify-api-ani.kmswlee.endpoint.ainize.ai"
+   if you want to colorize sketch, <https://deoldify-api-ani.kmswlee.endpoint.ainize.ai>. 
+   also Size of image file should be less than 5Mb."
    contact:
-      name: Ainizer - Lee WooJae
+      name: Lee WooJae
       email: wodndl895@gmail.com
    version: 1.0.0
    license:
       url: https://github.com/jantic/DeOldify
 servers:
    - url: 'https://deoldify-api.kmswlee.endpoint.ainize.ai'
-   - url: 'https://deoldify-api-ani.kmswlee.endpoint.ainize.ai'
 
 paths:
    /process-img:
@@ -36,37 +36,35 @@ paths:
                      schema:
                         type: string
                         format: binary
-               # video/*:
-               #    schema:
-               #       type: string
-               #       format: binary
-         '400':
-            description: Bad request (File Not Uploaded)
-         '500':
-            description: Server Side Error (Model Test Error, File Move Error)
-   /process-img-ani:
-      post:
-         tags:
-         - DeOldify-image-ani
-         requestBody:
-            content:
-               application/json:
-                  schema:
-                     type: object
-                     properties:
-                        source_url:
-                           type: string
-                     required:
-                        - source_url    
-         responses:
-            '200':
-               description: translation success
-               content:
-                  image/*:
-                     schema:
-                        type: string
-                        format: binary
             '400':
                description: Bad request (File Not Uploaded)
+            '429':
+               description: busy to server, please retry again.
             '500':
                description: Server Side Error (Model Test Error, File Move Error)
+   # /process-img-ani:
+   #    post:
+   #       tags:
+   #       - DeOldify-image-ani
+   #       requestBody:
+   #          content:
+   #             application/json:
+   #                schema:
+   #                   type: object
+   #                   properties:
+   #                      source_url:
+   #                         type: string
+   #                   required:
+   #                      - source_url    
+   #       responses:
+   #          '200':
+   #             description: translation success
+   #             content:
+   #                image/*:
+   #                   schema:
+   #                      type: string
+   #                      format: binary
+   #          '400':
+   #             description: Bad request (File Not Uploaded)
+   #          '500':
+   #             description: Server Side Error (Model Test Error, File Move Error)

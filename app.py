@@ -43,7 +43,7 @@ def process_image():
         render_factor = 35 #int(request.json["render_factor"])
 
         download(url, input_path)
-        # ToDo: size tranform
+        
         try:
             image_colorizer.plot_transformed_image(path=input_path, figsize=(20,20),
             render_factor=render_factor, display_render_factor=True, compare=False)
@@ -57,10 +57,10 @@ def process_image():
         return callback, 200
 
     except DownloadPrecheckFailed as e:
-        return jsonify({'message': str(e)}), 500
+        return jsonify({'message': str(e)}), 400
     except:
         traceback.print_exc()
-        return jsonify({'message': 'input error'}), 400
+        return jsonify({'message': 'input error'}), 500
 
     finally:
         pass
@@ -75,100 +75,7 @@ def health():
 
 @app.route('/')
 def main():
-    return """
-    <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    </head>
-    <div class=container>
-    <div class="jumbotron mt-3">
-    <h1>ainized-DeOldify</h1>
-    <A>Git hub repository : </A> <A href="https://bit.ly/39xp9db"> DeOldify </A> <br>
-    <A>API deployed on  </A> <A href="http://bit.ly/390JkQr"> Ainize </A> <br>
-    <A>NOTE! </A><br>
-    <A>If you want to put an image url from Google drive, You can use code:"https://drive.google.com/uc?export=view&id=${imageId}"</A> <br>
-    <A>You can use an image url from this website. </A> <A href="https://imgur.com/"> Link</A><br>
-    <A>Sample image homepage : </A> <A href="https://unsplash.com/wallpapers/colors/black-and-white"> Link</A> <br>
-    <hr class="my-4">
-    <h3>Image URL: <input id="source_url" placeholder="http://"> </h3><br>
-    <style>
-    #submit{
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }
-    </style>
-    <div>
-        <h2>Select type!</h2>
-        <input type="radio" name="type" id="option" value="picture"> Picture <br>
-        <input type="radio" name="type" id="option" value="anime"> sketch <br>
-    </div>
-    <h3>RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
-    <div id="result">
-        <image id="resultImage" width="960" height="540">
-    </div>
-    <script>
-    const run = (retry_cnt=0, retry_sec=1,) => {
-        if (retry_cnt < 3) {
-            retry_cnt += 1
-            retry_sec *= 2
-        } else {
-            throw Error('Retry Error');
-        }
-        checked=document.querySelector('input[name="type"]:checked').value;
-        if (checked=='anime'){
-            url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
-            data = JSON.stringify({
-            source_url: document.getElementById('source_url').value,
-            render_factor: 26,
-            })
-        }
-        else{
-            url = "/process-img"
-            data = JSON.stringify({
-            source_url: document.getElementById('source_url').value,
-            render_factor: 35,
-            })
-        }
-
-        fetch(url, {method:'POST', headers: {'Content-Type': 'application/json'}, body: data})
-            .then(response => {
-                if (response.status === 200) {
-                    return response;
-                } else if (response.status === 429) {
-                    console.log(`retry ${retry_cnt}th after ${retry_sec}secs ...`);
-                    setTimeout(
-                        () => {
-                            run(retry_cnt, retry_sec)
-                        }, retry_sec * 1000
-                    )
-                } else if (response.status === 500) {
-                    return response.json().then(errorPayload => {
-                        throw Error(errorPayload.message);
-                    });
-                } else {
-                    throw Error('Server Error - Debugging Please!');
-                }
-            })
-            .then(response => response.blob())
-            .then(blob => URL.createObjectURL(blob))
-            .then(imageURL => {
-                document.getElementById('result').innerText = '';
-                document.getElementById('result').style.display = 'block';
-                document.getElementById('resultImage').src = imageURL;
-            })
-            .catch(e => {
-                document.getElementById('result').innerText = e.message;
-            })
-    };
-
-    document.getElementById('submit').onclick = () => run()    
-    </script>
-    </div>
-    </div>
-"""
-
+    return app.send_static_file('index.html')
 if __name__ == '__main__':
     global upload_directory
     global results_img_directory
