@@ -93,6 +93,7 @@ def download(url, filename):
     content_type = r.headers.get('Content-Type')
     if not content_type or content_type not in (
         'image/jpeg',
+        'image/jpg',
         'image/png',
     ):
         raise DownloadPrecheckFailed('Non-image url is not supported.')
