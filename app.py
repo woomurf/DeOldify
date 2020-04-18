@@ -60,7 +60,7 @@ def process_image():
         return jsonify({'message': str(e)}), 400
     except:
         traceback.print_exc()
-        return jsonify({'message': 'input error'}), 500
+        return jsonify({'message': 'inference error'}), 500
 
     finally:
         pass
@@ -76,6 +76,7 @@ def health():
 @app.route('/')
 def main():
     return app.send_static_file('index.html')
+    
 if __name__ == '__main__':
     global upload_directory
     global results_img_directory

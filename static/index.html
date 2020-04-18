@@ -20,7 +20,7 @@
         border-bottom-right-radius: 5px;
     }
     </style>
-    
+
     <div>
         <h2>Select type!</h2>
         <input type="radio" name="type" id="option" value="picture" checked> Picture <br>
@@ -42,7 +42,12 @@
     </div>
 
     <script>
+    let time_obj = document.getElementById("time");
+    let timer = undefined;
+    let start = undefined;
     var doubleSubmitFlag = false;
+
+    document.getElementById("preloader").style.display = "none";
     function doubleSubmitCheck(){
         if(doubleSubmitFlag){
             return doubleSubmitFlag;
@@ -52,16 +57,25 @@
         }
     }
     const run = (retry_cnt=0, retry_sec=1,) => {
+        if(doubleSubmitCheck()) {
+            console.log("please wait");
+            return ;
+        }
         if (retry_cnt < 3) {
             retry_cnt += 1
             retry_sec *= 2
         } else {
             throw Error('Retry Error');
         }
-        checked=document.querySelector('input[name="type"]:checked').value;
-        if (document.querySelector('input[name="type"]:checked').value==null){
-            
+        if (document.getElementById('source_url').value==""){
+            alert('Please input URL!');
+            return;
         }
+        if (document.querySelector('input[name="type"]:checked')==null){
+            alert('Please select option!');
+            return;
+        }
+        checked=document.querySelector('input[name="type"]:checked').value;
         if (checked=='anime'){
             url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
             data = JSON.stringify({
@@ -74,6 +88,13 @@
             source_url: document.getElementById('source_url').value,
             })
         }
+        document.getElementById("preloader").style.display = "block";
+        start = 0;
+        timer= setInterval(() => {
+            start += 1;
+            time_obj.innerText = `${start / 10} 's`;
+        }, 100);
+
         fetch(url, {method:'POST', headers: {'Content-Type': 'application/json'}, body: data})
             .then(response => {
                 if (response.status === 200) {
@@ -103,17 +124,15 @@
                 document.getElementById('result').style.display = 'block';
                 document.getElementById('resultImage').src = imageURL;
                 document.getElementById('resultText').innerText = '';
+                document.getElementById("preloader").style.display = "none";
+                clearInterval(timer);
+                doubleSubmitFlag = false
             })
             .catch(e => {
                 document.getElementById('resultText').innerText = e.message;
             })
     };
-    if(doubleSubmitFlag){
-        console.log("please wait..");
-    }
-    else{
-        document.getElementById('submit').onclick = () => run()
-    }
+    document.getElementById('submit').onclick = () => run()
     </script>
     </div>
     </div>
