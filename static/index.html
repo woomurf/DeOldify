@@ -34,14 +34,15 @@
         <div id="resultText"></div>
         <image id="resultImage" style="width: 100%; height:auto;">
     </div>
-
+    <div id="sample">Sample image
+    <img src="static/sampleimg.png" style="width: 100%; height:auto; margin-top: 20;">
+    </div>
     <script>
     let time_obj = document.getElementById("time");
     let timer = undefined;
     let start = undefined;
     var doubleSubmitFlag = false;
     document.getElementById("preloader").style.display = "none";
-
     function doubleSubmitCheck(){
         if(doubleSubmitFlag){
             return doubleSubmitFlag;
@@ -70,6 +71,7 @@
             data = JSON.stringify({
             source_url: document.getElementById('source_url').value,
             })
+        document.getElementById('sample').style.display = 'none';
         document.getElementById("preloader").style.display = "block";
         start = 0;
         timer= setInterval(() => {
