@@ -21,13 +21,7 @@
     }
     </style>
 
-    <div>
-        <h2>Select type!</h2>
-        <input type="radio" name="type" id="option" value="picture" checked> Picture <br>
-        <input type="radio" name="type" id="option" value="anime"> Sketch <br>
-    </div>
-
-    <h3>RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
+    <h3 style="margin-top: 20;"> RUN:  <button type="submit" class="btn btn-primary btn-lg" id="submit">Submit</button></h3>
     
     <div id="preloader">
         <div class="d-flex align-items-center">
@@ -46,8 +40,8 @@
     let timer = undefined;
     let start = undefined;
     var doubleSubmitFlag = false;
-
     document.getElementById("preloader").style.display = "none";
+
     function doubleSubmitCheck(){
         if(doubleSubmitFlag){
             return doubleSubmitFlag;
@@ -56,9 +50,10 @@
             return false;
         }
     }
+
     const run = (retry_cnt=0, retry_sec=1,) => {
         if(doubleSubmitCheck()) {
-            console.log("please wait");
+            console.log("Please wait");
             return ;
         }
         if (retry_cnt < 3) {
@@ -67,34 +62,22 @@
         } else {
             throw Error('Retry Error');
         }
-        if (document.getElementById('source_url').value==""){
+        if (document.getElementById('source_url').value==""||document.getElementById('source_url').value==null){
             alert('Please input URL!');
             return;
         }
-        if (document.querySelector('input[name="type"]:checked')==null){
-            alert('Please select option!');
-            return;
-        }
-        checked=document.querySelector('input[name="type"]:checked').value;
-        if (checked=='anime'){
-            url = "https://deoldify-api-ani.kmswlee.endpoint.ainize.ai/process-img-ani"
-            data = JSON.stringify({
-            source_url: document.getElementById('source_url').value,
-            })
-        }
-        else{
             url = "/process-img"
             data = JSON.stringify({
             source_url: document.getElementById('source_url').value,
             })
-        }
         document.getElementById("preloader").style.display = "block";
         start = 0;
         timer= setInterval(() => {
             start += 1;
             time_obj.innerText = `${start / 10} 's`;
         }, 100);
-
+        document.getElementById('resultText').innerText = '';
+        document.getElementById('resultImage').src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
         fetch(url, {method:'POST', headers: {'Content-Type': 'application/json'}, body: data})
             .then(response => {
                 if (response.status === 200) {
@@ -109,10 +92,14 @@
                 } else if (response.status === 400) {
                     return response.json().then(errorPayload => {
                         throw Error(errorPayload.message);
+                        clearInterval(timer);
+                        doubleSubmitFlag = false
                     });
                 } else if(response.status=== 500) {
                     return response.json().then(errorPayload => {
                         throw Error(errorPayload.message);
+                        clearInterval(timer);
+                        doubleSubmitFlag = false
                     });
                 } else {
                     throw Error('Server Busy -- Please Wait!');
@@ -130,9 +117,13 @@
             })
             .catch(e => {
                 document.getElementById('resultText').innerText = e.message;
+                document.getElementById("preloader").style.display = "none";
+                clearInterval(timer);
+                doubleSubmitFlag = false
             })
     };
     document.getElementById('submit').onclick = () => run()
     </script>
     </div>
     </div>
+
