@@ -71,10 +71,12 @@
             retry_cnt += 1
             retry_sec *= 2
         } else {
+            doubleSubmitFlag = false
             throw Error('Retry Error');
         }
         if (document.getElementById('source_url').value==""||document.getElementById('source_url').value==null){
             alert('Please input URL!');
+            doubleSubmitFlag = false
             return;
         }
             url = "/process-img"
@@ -99,6 +101,8 @@
                     document.getElementById('resultText').innerText = (`retry ${retry_cnt}th after ${retry_sec}secs ...`);
                     setTimeout(
                         () => {
+                            clearInterval(timer);
+                            doubleSubmitFlag = false
                             run(retry_cnt, retry_sec)
                         }, retry_sec * 1000
                     )
