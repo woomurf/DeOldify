@@ -1,7 +1,16 @@
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-164242824-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-164242824-4');
+    </script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    </head>
+</head>
     <div class=container>
     <div class="jumbotron mt-3">
     <h1>DeOldify</h1>
@@ -112,7 +121,7 @@
                         clearInterval(timer);
                         doubleSubmitFlag = false
                     });
-                } else if(response.status=== 500) {
+                } else if (response.status === 500) {
                     return response.json().then(errorPayload => {
                         throw Error(errorPayload.message);
                         clearInterval(timer);
