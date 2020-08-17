@@ -1,6 +1,6 @@
 
 # DeOldify
-[![Run on Ainize](https://ainize.ai/static/images/run_on_ainize_button.svg)](https://ainize.ai/kmswlee/deoldify-api)<br>
+[![Run on Ainize](https://ainize.ai/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=https://github.com/kmswlee/DeOldify)<br>
 Image [<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](https://colab.research.google.com/github/jantic/DeOldify/blob/master/ImageColorizerColab.ipynb) |
 Video [<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](https://colab.research.google.com/github/jantic/DeOldify/blob/master/VideoColorizerColab.ipynb)
 
@@ -10,7 +10,7 @@ Instructions on how to use the Colabs above have been kindly provided in video t
 
 [![](http://img.youtube.com/vi/VaEl0faDw38/0.jpg)](http://www.youtube.com/watch?v=VaEl0faDw38)
 
-Get more updates on [Twitter <img src="resource_images/Twitter_Social_Icon_Rounded_Square_Color.svg" width="16">](https://twitter.com/citnaj).
+Get more updates on [Twitter <img src="https://raw.githubusercontent.com/kmswlee/DeOldify/master/resource_images/Twitter_Social_Icon_Rounded_Square_Color.svg" width="16">](https://twitter.com/citnaj).
 
 
 ## Table of Contents
@@ -59,49 +59,49 @@ We'll get into the details in a bit, but first let's see some pretty pictures an
 
 "Migrant Mother" by Dorothea Lange (1936)
 
-![Migrant Mother](https://i.imgur.com/Bt0vnke.jpg)
+<img src="https://i.imgur.com/Bt0vnke.jpg" style="width: 100%;">
 
 Woman relaxing in her livingroom in Sweden (1920)
 
-![Sweden Living Room](https://i.imgur.com/158d0oU.jpg)
+<img src="https://i.imgur.com/158d0oU.jpg" style="width: 100%;">
 
 "Toffs and Toughs" by Jimmy Sime (1937)
 
-![Class Divide](https://i.imgur.com/VYuav4I.jpg)
+<img src="https://i.imgur.com/VYuav4I.jpg" style="width: 100%;">
 
 Thanksgiving Maskers (1911)
 
-![Thanksgiving Maskers](https://i.imgur.com/n8qVJ5c.jpg)
+<img src="https://i.imgur.com/n8qVJ5c.jpg" style="width: 100%;">
 
 Glen Echo Madame Careta Gypsy Camp in Maryland (1925)
 
-![Gypsy Camp](https://i.imgur.com/1oYrJRI.jpg)
+<img src="https://i.imgur.com/1oYrJRI.jpg" style="width: 100%;">
 
 "Mr. and Mrs. Lemuel Smith and their younger children in their farm house, Carroll County, Georgia." (1941)
 
-![Georgia Farmhouse](https://i.imgur.com/I2j8ynm.jpg) 
+<img src="https://i.imgur.com/I2j8ynm.jpg" style="width: 100%;">
 
 "Building the Golden Gate Bridge" (est 1937)
 
-![Golden Gate Bridge](https://i.imgur.com/6SbFjfq.jpg)
+<img src="https://i.imgur.com/6SbFjfq.jpg" style="width: 100%;">
 
 > **Note:**  What you might be wondering is while this render looks cool, are the colors accurate? The original photo certainly makes it look like the towers of the bridge could be white. We looked into this and it turns out the answer is no - the towers were already covered in red primer by this time. So that's something to keep in mind- historical accuracy remains a huge challenge!
 
 "Terrasse de café, Paris" (1925)
 
-![Cafe Paris](https://i.imgur.com/WprQwP5.jpg)
+<img src="https://i.imgur.com/WprQwP5.jpg" style="width: 100%;">
 
 Norwegian Bride (est late 1890s)
 
-![Norwegian Bride](https://i.imgur.com/MmtvrZm.jpg)
+<img src="https://i.imgur.com/MmtvrZm.jpg" style="width: 100%;">
 
 Zitkála-Šá (Lakota: Red Bird), also known as Gertrude Simmons Bonnin (1898)
 
-![Native Woman](https://i.imgur.com/zIGM043.jpg)
+<img src="https://i.imgur.com/zIGM043.jpg" style="width: 100%;">
 
 Chinese Opium Smokers (1880)
 
-![Opium Real](https://i.imgur.com/lVGq8Vq.jpg)
+<img src="https://i.imgur.com/lVGq8Vq.jpg" style="width: 100%;">
 
 
 ## Stuff That Should Probably Be In A Paper
@@ -112,15 +112,15 @@ NoGAN training is crucial to getting the kind of stable and colorful images seen
 
 In addition to improved video stability, there is an interesting thing going on here worth mentioning. It turns out the models I run, even different ones and with different training structures, keep arriving at more or less the same solution.  That's even the case for the colorization of things you may think would be arbitrary and unknowable, like the color of clothing, cars, and even special effects (as seen in "Metropolis").  
 
-![Metropolis Special FX](https://thumbs.gfycat.com/HeavyLoneBlowfish-size_restricted.gif)
+<img src="https://thumbs.gfycat.com/HeavyLoneBlowfish-size_restricted.gif" style="width: 100%;">
 
 My best guess is that the models are learning some interesting rules about how to colorize based on subtle cues present in the black and white images that I certainly wouldn't expect to exist.  This result leads to nicely deterministic and consistent results, and that means you don't have track model colorization decisions because they're not arbitrary.  Additionally, they seem remarkably robust so that even in moving scenes the renders are very consistent.
 
-![Moving Scene Example](https://thumbs.gfycat.com/FamiliarJubilantAsp-size_restricted.gif)
+<img src="https://thumbs.gfycat.com/FamiliarJubilantAsp-size_restricted.gif" style="width: 100%;">
 
 Other ways to stabilize video add up as well. First, generally speaking rendering at a higher resolution (higher render_factor) will increase stability of colorization decisions.  This stands to reason because the model has higher fidelity image information to work with and will have a greater chance of making the "right" decision consistently.  Closely related to this is the use of resnet101 instead of resnet34 as the backbone of the generator- objects are detected more consistently and correctly with this. This is especially important for getting good, consistent skin rendering.  It can be particularly visually jarring if you wind up with "zombie hands", for example.
 
-![Zombie Hand Example](https://thumbs.gfycat.com/ThriftyInferiorIsabellinewheatear-size_restricted.gif)
+<img src="https://thumbs.gfycat.com/ThriftyInferiorIsabellinewheatear-size_restricted.gif" style="width: 100%;">
 
 Additionally, gaussian noise augmentation during training appears to help but at this point the conclusions as to just how much are bit more tenuous (I just haven't formally measured this yet).  This is loosely based on work done in style transfer video, described here:  https://medium.com/element-ai-research-lab/stabilizing-neural-style-transfer-for-video-62675e203e42.  
 
@@ -132,11 +132,11 @@ This is a new type of GAN training that I've developed to solve some key problem
 
 **Original DeOldify Model**
 
-![Before Flicker](https://thumbs.gfycat.com/CoordinatedVeneratedHogget-size_restricted.gif)
+<img src="https://thumbs.gfycat.com/CoordinatedVeneratedHogget-size_restricted.gif" style="width: 100%;">
 
 **NoGAN-Based DeOldify Model**
 
-![After Flicker](https://thumbs.gfycat.com/OilyBlackArctichare-size_restricted.gif)
+<img src="https://thumbs.gfycat.com/OilyBlackArctichare-size_restricted.gif" style="width: 100%;">
 
 The steps are as follows: First train the generator in a conventional way by itself with just the feature loss. Next, generate images from that, and train the critic on distinguishing between those outputs and real images as a basic binary classifier. Finally, train the generator and critic together in a GAN setting (starting right at the target size of 192px in this case).  Now for the weird part:  All the useful GAN training here only takes place within a very small window of time.  There's an inflection point where it appears the critic has transferred everything it can that is useful to the generator. Past this point, image quality oscillates between the best that you can get at the inflection point, or bad in a predictable way (orangish skin, overly red lips, etc).  There appears to be no productive training after the inflection point.  And this point lies within training on just 1% to 3% of the Imagenet Data!  That amounts to about 30-60 minutes of training at 192px.  
 
@@ -297,12 +297,14 @@ echo "http://$(curl ifconfig.io):5000" && nvidia-docker run --ipc=host -p 5000:5
 
 Calling the API for image processing
 ```console
-curl -X POST "http://MY_SUPER_API_IP:5000/process" -H "accept: image/png" -H "Content-Type: application/json" -d "{\"source_url\":\"http://www.afrikanheritage.com/wp-content/uploads/2015/08/slave-family-P.jpeg\", \"render_factor\":35}" --output colorized_image.png
+curl -X POST "http://MY_SUPER_API_IP:5000/process" -H "accept: image/png" -H "Content-Type: application/json" \
+ -d "{\"source_url\":\"http://www.afrikanheritage.com/wp-content/uploads/2015/08/slave-family-P.jpeg\", \"render_factor\":35}" --output colorized_image.png
 ```
 
 Calling the API for video processing
 ```console
-curl -X POST "http://MY_SUPER_API_IP:5000/process" -H "accept: application/octet-stream" -H "Content-Type: application/json" -d "{\"source_url\":\"https://v.redd.it/d1ku57kvuf421/HLSPlaylist.m3u8\", \"render_factor\":35}" --output colorized_video.mp4
+curl -X POST "http://MY_SUPER_API_IP:5000/process" -H "accept: application/octet-stream" -H "Content-Type: application/json" \
+ -d "{\"source_url\":\"https://v.redd.it/d1ku57kvuf421/HLSPlaylist.m3u8\", \"render_factor\":35}" --output colorized_video.mp4
 ```
 > **Note:** If you don't have Nvidia Docker, [here](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0)#installing-version-20) is the installation guide.
 
