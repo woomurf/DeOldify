@@ -11,7 +11,7 @@ info:
    license:
       url: https://github.com/jantic/DeOldify
 servers:
-   - url: 'https://deoldify-api.kmswlee.endpoint.ainize.ai'
+   - url: https://master-de-oldify-kmswlee.endpoint.ainize.ai
 
 paths:
    /process-img:
