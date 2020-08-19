@@ -1,4 +1,5 @@
-From nvcr.io/nvidia/pytorch:19.04-py3
+FROM gkswjdzz/deoldify-models AS build
+FROM nvcr.io/nvidia/pytorch:19.04-py3
 
 RUN apt-get -y update
 
@@ -19,12 +20,14 @@ RUN pip install Flask
 RUN pip install Pillow
 RUN pip install scikit-image
 RUN pip install requests
-RUN wget -O /root/.torch/models/vgg16_bn-6c64b313.pth https://download.pytorch.org/models/vgg16_bn-6c64b313.pth
-RUN wget -O /root/.torch/models/resnet34-333f7ec4.pth https://download.pytorch.org/models/resnet34-333f7ec4.pth
-RUN wget -O /root/.torch/models/resnet101-5d3b4d8f.pth https://download.pytorch.org/models/resnet101-5d3b4d8f.pth
 
+COPY --from=build /models/ /root/.torch/models
+RUN mkdir -p /data/models
+RUN mv /root/.torch/models/ColorizeArtistic_gen.pth /data/models/ColorizeArtistic_gen.pth
 ADD . /data/
 EXPOSE 80
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+CMD ["bin/bash"]
+
+#ENTRYPOINT ["python3"]
+#CMD ["app.py"]
 
