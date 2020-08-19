@@ -26,8 +26,5 @@ RUN mkdir -p /data/models
 RUN mv /root/.torch/models/ColorizeArtistic_gen.pth /data/models/ColorizeArtistic_gen.pth
 ADD . /data/
 EXPOSE 80
-CMD ["bin/bash"]
-
-#ENTRYPOINT ["python3"]
-#CMD ["app.py"]
-
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
