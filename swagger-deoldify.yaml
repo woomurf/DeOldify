@@ -9,6 +9,7 @@ info:
       email: wodndl895@gmail.com
    version: 1.0.0
    license:
+      name: MIT License
       url: https://github.com/jantic/DeOldify
 servers:
    - url: https://master-de-oldify-kmswlee.endpoint.ainize.ai
@@ -28,6 +29,35 @@ paths:
                            type: string
                      required:
                         - source_url    
+         responses:
+            '200':
+               description: translation success
+               content:
+                  image/*:
+                     schema:
+                        type: string
+                        format: binary
+            '400':
+               description: Bad request (File Not Uploaded)
+            '429':
+               description: busy to server, please retry again.
+            '500':
+               description: Server Side Error (Model Test Error, File Move Error)
+   /process-img-form:
+      post:
+         tags:
+         - DeOldify-image
+         requestBody:
+            content:
+               multipart/form-data:
+                  schema:
+                     type: object
+                     properties:
+                        source_image:
+                           type: string
+                           format: binary
+                     required:
+                        - source_image    
          responses:
             '200':
                description: translation success
