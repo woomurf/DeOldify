@@ -168,7 +168,7 @@
 
         var image = document.getElementById("source_image").files[0];
         if (image == undefined){
-            alert('Please input URL!');
+            alert('Please input image!');
             doubleSubmitFlag = false
             return;
         }
@@ -230,7 +230,7 @@
         .then(blob => URL.createObjectURL(blob))
         .then(imageURL => {
             document.getElementById('result').style.display = 'block';
-            document.getElementById('origin').src = document.getElementById('source_url').value
+            document.getElementById('origin').src = URL.createObjectURL(document.getElementById("source_image").files[0]);
             document.getElementById('resultImage').src = imageURL;
             document.getElementById('resultText').innerText = '';
             document.getElementById("preloader").style.display = "none";
