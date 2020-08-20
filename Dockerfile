@@ -1,3 +1,4 @@
+FROM hyeonwoong/deoldify-model as build
 From nvcr.io/nvidia/pytorch:19.04-py3
 
 RUN apt-get -y update
@@ -23,7 +24,9 @@ RUN wget -O /root/.torch/models/vgg16_bn-6c64b313.pth https://download.pytorch.o
 RUN wget -O /root/.torch/models/resnet34-333f7ec4.pth https://download.pytorch.org/models/resnet34-333f7ec4.pth
 RUN wget -O /root/.torch/models/resnet101-5d3b4d8f.pth https://download.pytorch.org/models/resnet101-5d3b4d8f.pth
 
+COPY --from=build /models/* /data/models/
+
 ADD . /data/
 EXPOSE 80
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+
+CMD ["python3", "app.py"]
